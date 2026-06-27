@@ -1,939 +1,1437 @@
-
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,700;1,400&display=swap');
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --teal: #1D9E75;
-    --teal-light: #E1F5EE;
-    --teal-dark: #0F6E56;
-    --purple: #7F77DD;
-    --purple-light: #EEEDFE;
-    --coral: #D85A30;
-    --coral-light: #FAECE7;
-    --amber: #BA7517;
-    --amber-light: #FAEEDA;
-  }
-
-  body { font-family: 'Inter', var(--font-sans, sans-serif); }
-
-  .portfolio {
-    background: var(--surface-0, #f8f7f4);
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-
-  /* NAV */
-  .nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1.25rem 2rem;
-    border-bottom: 0.5px solid var(--border, #e0e0dc);
-    background: var(--surface-1, #fff);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-
-  .nav-logo {
-    font-family: 'Playfair Display', serif;
-    font-size: 20px;
-    font-style: italic;
-    color: var(--text-primary, #1a1a18);
-    letter-spacing: -0.3px;
-  }
-
-  .nav-links { display: flex; gap: 1.5rem; align-items: center; }
-
-  .nav-links a {
-    font-size: 13px;
-    color: var(--text-secondary, #666);
-    text-decoration: none;
-    letter-spacing: 0.02em;
-    transition: color 0.2s;
-    cursor: pointer;
-  }
-  .nav-links a:hover { color: var(--teal); }
-
-  .nav-cta {
-    background: var(--teal);
-    color: #fff !important;
-    padding: 6px 16px;
-    border-radius: 20px;
-    font-size: 13px !important;
-    font-weight: 500;
-    transition: background 0.2s !important;
-  }
-  .nav-cta:hover { background: var(--teal-dark) !important; color: #fff !important; }
-
-  /* HERO */
-  .hero {
-    padding: 5rem 2rem 4rem;
-    max-width: 900px;
-    margin: 0 auto;
-    position: relative;
-  }
-
-  .hero-eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--teal-light);
-    color: var(--teal-dark);
-    font-size: 12px;
-    font-weight: 500;
-    padding: 5px 14px;
-    border-radius: 20px;
-    margin-bottom: 1.5rem;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-  }
-
-  .pulse-dot {
-    width: 7px; height: 7px;
-    border-radius: 50%;
-    background: var(--teal);
-    animation: pulse 2s infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.4; transform: scale(0.8); }
-  }
-
-  .hero-name {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(42px, 7vw, 72px);
-    font-weight: 700;
-    line-height: 1.05;
-    color: var(--text-primary, #1a1a18);
-    letter-spacing: -1.5px;
-    margin-bottom: 0.5rem;
-  }
-
-  .hero-name span {
-    color: var(--teal);
-    font-style: italic;
-    font-weight: 400;
-  }
-
-  .hero-title {
-    font-size: 15px;
-    color: var(--text-secondary, #666);
-    margin-bottom: 1.5rem;
-    font-weight: 400;
-    letter-spacing: 0.03em;
-  }
-
-  .hero-bio {
-    font-size: 16px;
-    line-height: 1.75;
-    color: var(--text-primary, #1a1a18);
-    max-width: 580px;
-    margin-bottom: 2rem;
-  }
-
-  .hero-bio strong { color: var(--teal-dark); font-weight: 500; }
-
-  .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 3rem; }
-
-  .btn-primary {
-    background: var(--teal);
-    color: #fff;
-    border: none;
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    font-family: inherit;
-    transition: background 0.2s, transform 0.1s;
-    display: inline-flex; align-items: center; gap: 8px;
-  }
-  .btn-primary:hover { background: var(--teal-dark); transform: translateY(-1px); }
-
-  .btn-secondary {
-    background: transparent;
-    color: var(--text-primary, #1a1a18);
-    border: 0.5px solid var(--border-strong, #c0c0bc);
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    font-family: inherit;
-    transition: border-color 0.2s, background 0.2s;
-    display: inline-flex; align-items: center; gap: 8px;
-  }
-  .btn-secondary:hover { border-color: var(--teal); color: var(--teal); background: var(--teal-light); }
-
-  /* STATS */
-  .stats-bar {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1px;
-    background: var(--border, #e0e0dc);
-    border: 0.5px solid var(--border, #e0e0dc);
-    border-radius: 12px;
-    overflow: hidden;
-  }
-
-  .stat {
-    background: var(--surface-1, #fff);
-    padding: 1.25rem 1rem;
-    text-align: center;
-    transition: background 0.2s;
-  }
-  .stat:hover { background: var(--teal-light); }
-
-  .stat-num {
-    font-family: 'Playfair Display', serif;
-    font-size: 28px;
-    font-weight: 700;
-    color: var(--teal);
-    display: block;
-    line-height: 1;
-    margin-bottom: 4px;
-  }
-
-  .stat-label {
-    font-size: 11px;
-    color: var(--text-secondary, #666);
-    text-transform: uppercase;
-    letter-spacing: 0.07em;
-  }
-
-  /* SECTIONS */
-  .section {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 3.5rem 2rem;
-  }
-
-  .section-header {
-    display: flex;
-    align-items: baseline;
-    gap: 1rem;
-    margin-bottom: 2rem;
-  }
-
-  .section-label {
-    font-size: 11px;
-    font-weight: 500;
-    color: var(--teal);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-  }
-
-  .section-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 28px;
-    font-weight: 700;
-    color: var(--text-primary, #1a1a18);
-    letter-spacing: -0.5px;
-  }
-
-  .section-line {
-    flex: 1;
-    height: 0.5px;
-    background: var(--border, #e0e0dc);
-  }
-
-  /* PROJECTS */
-  .project-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-  }
-
-  .project-card {
-    background: var(--surface-1, #fff);
-    border: 0.5px solid var(--border, #e0e0dc);
-    border-radius: 12px;
-    padding: 1.5rem;
-    cursor: pointer;
-    transition: border-color 0.2s, transform 0.2s;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .project-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-    background: var(--card-accent, var(--teal));
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.3s ease;
-  }
-
-  .project-card:hover::before { transform: scaleX(1); }
-  .project-card:hover { border-color: var(--border-strong, #c0c0bc); transform: translateY(-2px); }
-
-  .project-card.featured {
-    grid-column: 1 / -1;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-    align-items: start;
-  }
-
-  .project-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-bottom: 1rem;
-  }
-
-  .tag {
-    font-size: 11px;
-    padding: 3px 10px;
-    border-radius: 20px;
-    font-weight: 500;
-    letter-spacing: 0.03em;
-  }
-
-  .tag-teal { background: var(--teal-light); color: var(--teal-dark); }
-  .tag-purple { background: var(--purple-light); color: #3C3489; }
-  .tag-coral { background: var(--coral-light); color: #712B13; }
-  .tag-amber { background: var(--amber-light); color: #633806; }
-
-  .live-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 11px;
-    color: var(--teal-dark);
-    background: var(--teal-light);
-    padding: 3px 10px;
-    border-radius: 20px;
-    font-weight: 500;
-  }
-
-  .project-title {
-    font-size: 17px;
-    font-weight: 500;
-    color: var(--text-primary, #1a1a18);
-    margin-bottom: 8px;
-    letter-spacing: -0.2px;
-    line-height: 1.3;
-  }
-
-  .project-desc {
-    font-size: 13.5px;
-    color: var(--text-secondary, #666);
-    line-height: 1.65;
-    margin-bottom: 1.25rem;
-  }
-
-  .project-stack {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-  }
-
-  .stack-pill {
-    font-size: 11px;
-    color: var(--text-secondary, #666);
-    background: var(--surface-0, #f8f7f4);
-    border: 0.5px solid var(--border, #e0e0dc);
-    padding: 3px 9px;
-    border-radius: 4px;
-    font-family: var(--font-mono, monospace);
-  }
-
-  .project-meta {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-    padding: 1rem;
-    background: var(--surface-0, #f8f7f4);
-    border-radius: 8px;
-    margin-top: 0;
-  }
-
-  .meta-item { }
-  .meta-key { font-size: 11px; color: var(--text-secondary, #888); margin-bottom: 2px; }
-  .meta-val { font-size: 13px; font-weight: 500; color: var(--text-primary, #1a1a18); }
-
-  /* SKILLS */
-  .skills-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-  }
-
-  .skill-card {
-    background: var(--surface-1, #fff);
-    border: 0.5px solid var(--border, #e0e0dc);
-    border-radius: 12px;
-    padding: 1.25rem;
-  }
-
-  .skill-icon {
-    width: 36px; height: 36px;
-    border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 18px;
-    margin-bottom: 0.75rem;
-  }
-
-  .skill-category {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text-primary, #1a1a18);
-    margin-bottom: 8px;
-  }
-
-  .skill-pills { display: flex; flex-wrap: wrap; gap: 5px; }
-
-  .skill-pill {
-    font-size: 11.5px;
-    color: var(--text-secondary, #555);
-    background: var(--surface-0, #f8f7f4);
-    padding: 3px 8px;
-    border-radius: 4px;
-    border: 0.5px solid var(--border, #e0e0dc);
-  }
-
-  /* EXPERIENCE */
-  .timeline { position: relative; }
-  .timeline::before {
-    content: '';
-    position: absolute;
-    left: 7px; top: 8px; bottom: 8px;
-    width: 0.5px;
-    background: var(--border, #e0e0dc);
-  }
-
-  .timeline-item {
-    display: flex;
-    gap: 1.5rem;
-    margin-bottom: 2rem;
-    position: relative;
-  }
-
-  .timeline-dot {
-    width: 15px; height: 15px;
-    border-radius: 50%;
-    border: 2px solid var(--teal);
-    background: var(--surface-1, #fff);
-    flex-shrink: 0;
-    margin-top: 3px;
-    position: relative;
-    z-index: 1;
-  }
-
-  .timeline-dot.active { background: var(--teal); }
-
-  .timeline-content {
-    background: var(--surface-1, #fff);
-    border: 0.5px solid var(--border, #e0e0dc);
-    border-radius: 10px;
-    padding: 1.25rem;
-    flex: 1;
-    transition: border-color 0.2s;
-  }
-  .timeline-content:hover { border-color: var(--teal); }
-
-  .tl-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 4px;
-    flex-wrap: wrap;
-    gap: 6px;
-  }
-
-  .tl-role { font-size: 15px; font-weight: 500; color: var(--text-primary, #1a1a18); }
-  .tl-period { font-size: 12px; color: var(--text-secondary, #888); }
-  .tl-org { font-size: 13px; color: var(--teal-dark); margin-bottom: 8px; }
-
-  .tl-bullets { list-style: none; }
-  .tl-bullets li {
-    font-size: 13px;
-    color: var(--text-secondary, #666);
-    line-height: 1.6;
-    padding-left: 14px;
-    position: relative;
-    margin-bottom: 2px;
-  }
-  .tl-bullets li::before {
-    content: '—';
-    position: absolute;
-    left: 0;
-    color: var(--teal);
-    font-size: 11px;
-  }
-
-  /* ABOUT */
-  .about-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-    align-items: start;
-  }
-
-  .about-text {
-    font-size: 15px;
-    line-height: 1.8;
-    color: var(--text-primary, #1a1a18);
-  }
-
-  .about-text p { margin-bottom: 1rem; }
-  .about-text p:last-child { margin-bottom: 0; }
-
-  .about-highlight {
-    color: var(--teal-dark);
-    font-weight: 500;
-  }
-
-  .availability-card {
-    background: var(--surface-1, #fff);
-    border: 0.5px solid var(--border, #e0e0dc);
-    border-radius: 12px;
-    padding: 1.5rem;
-  }
-
-  .avail-title {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text-primary);
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .avail-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 0;
-    border-bottom: 0.5px solid var(--border, #e0e0dc);
-  }
-  .avail-row:last-of-type { border-bottom: none; }
-
-  .avail-icon {
-    width: 28px; height: 28px;
-    border-radius: 6px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 14px;
-    flex-shrink: 0;
-  }
-
-  .avail-label { font-size: 13px; color: var(--text-primary); }
-  .avail-sub { font-size: 11px; color: var(--text-secondary, #888); }
-
-  .avail-check {
-    margin-left: auto;
-    width: 18px; height: 18px;
-    border-radius: 50%;
-    background: var(--teal-light);
-    display: flex; align-items: center; justify-content: center;
-    color: var(--teal-dark);
-    font-size: 10px;
-  }
-
-  /* CONTACT */
-  .contact-strip {
-    background: var(--surface-1, #fff);
-    border-top: 0.5px solid var(--border, #e0e0dc);
-    padding: 3rem 2rem;
-  }
-
-  .contact-inner {
-    max-width: 900px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 2rem;
-    align-items: center;
-  }
-
-  .contact-headline {
-    font-family: 'Playfair Display', serif;
-    font-size: 26px;
-    font-weight: 700;
-    color: var(--text-primary, #1a1a18);
-    letter-spacing: -0.5px;
-    margin-bottom: 6px;
-  }
-
-  .contact-sub { font-size: 14px; color: var(--text-secondary, #888); }
-
-  .contact-links { display: flex; gap: 10px; flex-wrap: wrap; }
-
-  .contact-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 13px;
-    padding: 9px 16px;
-    border-radius: 8px;
-    border: 0.5px solid var(--border-strong, #c0c0bc);
-    text-decoration: none;
-    color: var(--text-primary, #1a1a18);
-    transition: border-color 0.2s, background 0.2s;
-    cursor: pointer;
-  }
-  .contact-link:hover { border-color: var(--teal); color: var(--teal); background: var(--teal-light); }
-
-  .divider {
-    height: 0.5px;
-    background: var(--border, #e0e0dc);
-    max-width: 900px;
-    margin: 0 auto;
-  }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(16px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .fade-in { animation: fadeUp 0.5s ease both; }
-  .fade-in-1 { animation-delay: 0.1s; }
-  .fade-in-2 { animation-delay: 0.2s; }
-  .fade-in-3 { animation-delay: 0.3s; }
-  .fade-in-4 { animation-delay: 0.4s; }
-</style>
-
-<div class="portfolio">
-
-  <!-- NAV -->
-  <nav class="nav">
-    <div class="nav-logo">Sana.</div>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sana Arif | Applied AI Portfolio for Australia</title>
+  <meta name="description" content="An interactive recruiter portfolio for Sana Arif, data scientist and applied AI builder targeting Australia-based data science, ML, BI, and AI product roles." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,500..800,40,1&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #181612;
+      --paper: #f2eee2;
+      --panel: #fffbef;
+      --muted: #666157;
+      --line: rgba(24, 22, 18, .16);
+      --red: #b64632;
+      --teal: #16706d;
+      --ochre: #bd812d;
+      --blue: #315f8a;
+      --mist: rgba(255, 251, 239, .78);
+      --shadow: 0 28px 80px rgba(38, 31, 21, .16);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: "IBM Plex Sans", sans-serif;
+      background:
+        linear-gradient(115deg, rgba(182, 70, 50, .13), transparent 30%),
+        linear-gradient(245deg, rgba(22, 112, 109, .16), transparent 38%),
+        repeating-linear-gradient(90deg, rgba(24, 22, 18, .045) 0 1px, transparent 1px 76px),
+        var(--paper);
+    }
+
+    a { color: inherit; }
+    button, input, textarea, select { font: inherit; }
+    .hidden { display: none; }
+
+    .grain {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      pointer-events: none;
+      opacity: .13;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.75'/%3E%3C/svg%3E");
+      mix-blend-mode: multiply;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: grid;
+      grid-template-columns: minmax(170px, 1fr) auto minmax(170px, 1fr);
+      align-items: center;
+      gap: 18px;
+      padding: 13px clamp(16px, 4vw, 52px);
+      border-bottom: 1px solid var(--line);
+      background: rgba(242, 238, 226, .82);
+      backdrop-filter: blur(18px);
+    }
+
+    .brand {
+      display: grid;
+      gap: 1px;
+      width: fit-content;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .brand small {
+      color: var(--muted);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 6px;
+      padding: 4px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 251, 239, .66);
+    }
+
+    .nav-links a,
+    .nav-cta {
+      border-radius: 999px;
+      padding: 10px 12px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .nav-links a:hover,
+    .nav-links a:focus-visible {
+      color: var(--ink);
+      background: rgba(24, 22, 18, .08);
+    }
+
+    .nav-cta {
+      justify-self: end;
+      color: var(--panel);
+      background: var(--ink);
+    }
+
+    .hero {
+      min-height: calc(100vh - 66px);
+      display: grid;
+      grid-template-columns: minmax(0, .95fr) minmax(340px, .76fr);
+      gap: clamp(24px, 5vw, 72px);
+      align-items: stretch;
+      padding: clamp(34px, 6vw, 82px) clamp(16px, 4vw, 52px) 22px;
+    }
+
+    .hero-copy {
+      display: grid;
+      align-content: center;
+      min-height: 620px;
+    }
+
+    .eyebrow,
+    .mono {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .eyebrow {
+      width: fit-content;
+      padding: 8px 11px;
+      border: 1px solid rgba(182, 70, 50, .32);
+      background: rgba(255, 251, 239, .72);
+      color: var(--red);
+    }
+
+    h1 {
+      max-width: 990px;
+      margin: 18px 0 20px;
+      font-family: Fraunces, serif;
+      font-size: clamp(58px, 10.5vw, 150px);
+      font-weight: 750;
+      line-height: .78;
+      letter-spacing: 0;
+    }
+
+    h1 span {
+      display: block;
+      color: var(--teal);
+      font-style: italic;
+    }
+
+    .lead {
+      max-width: 720px;
+      margin: 0;
+      color: #39362f;
+      font-size: clamp(18px, 2vw, 24px);
+      line-height: 1.48;
+      font-weight: 500;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 28px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 12px 16px;
+      border: 1px solid var(--ink);
+      border-radius: 8px;
+      color: var(--ink);
+      background: rgba(255, 251, 239, .72);
+      text-decoration: none;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+    }
+
+    .button:hover,
+    .button:focus-visible {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 28px rgba(24, 22, 18, .14);
+    }
+
+    .button.primary {
+      color: var(--panel);
+      background: var(--ink);
+    }
+
+    .command-center {
+      position: relative;
+      display: grid;
+      gap: 12px;
+      align-content: start;
+      min-height: 620px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      background: rgba(255, 251, 239, .58);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .command-center::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at var(--mx, 50%) var(--my, 30%), rgba(22, 112, 109, .2), transparent 28%),
+        linear-gradient(135deg, transparent 0 48%, rgba(24, 22, 18, .09) 49% 51%, transparent 52%);
+      pointer-events: none;
+    }
+
+    .portrait-system {
+      position: relative;
+      min-height: 250px;
+      display: grid;
+      grid-template-columns: 1fr 96px;
+      gap: 12px;
+      z-index: 1;
+    }
+
+    .initials {
+      position: relative;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 28% 28%, rgba(189, 129, 45, .52), transparent 25%),
+        linear-gradient(135deg, #173f3a, #16706d 48%, #b64632);
+      color: var(--panel);
+    }
+
+    .initials::after {
+      content: "";
+      position: absolute;
+      inset: 16px;
+      border: 1px solid rgba(255, 251, 239, .38);
+      transform: rotate(-2deg);
+    }
+
+    .initials span {
+      font-family: Fraunces, serif;
+      font-size: clamp(96px, 12vw, 168px);
+      font-weight: 750;
+      line-height: 1;
+    }
+
+    .status-rail {
+      display: grid;
+      grid-template-rows: repeat(4, 1fr);
+      gap: 8px;
+    }
+
+    .rail-item {
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(24, 22, 18, .12);
+      background: rgba(255, 251, 239, .7);
+      color: var(--muted);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 10px;
+      font-weight: 600;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .meter-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .meter {
+      min-height: 126px;
+      padding: 15px;
+      border: 1px solid rgba(24, 22, 18, .12);
+      background: var(--mist);
+    }
+
+    .meter strong {
+      display: block;
+      font-family: Fraunces, serif;
+      font-size: 48px;
+      line-height: .92;
+      color: var(--teal);
+    }
+
+    .meter span {
+      display: block;
+      margin-top: 8px;
+      color: var(--muted);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 10px;
+      font-weight: 600;
+      line-height: 1.4;
+      text-transform: uppercase;
+    }
+
+    .fit-panel {
+      position: relative;
+      z-index: 1;
+      padding: 16px;
+      border: 1px solid rgba(24, 22, 18, .12);
+      background: #1f1b17;
+      color: var(--panel);
+    }
+
+    .fit-panel h2 {
+      margin: 8px 0 8px;
+      font-family: Fraunces, serif;
+      font-size: 35px;
+      line-height: .96;
+    }
+
+    .fit-score {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .score-number {
+      font-family: Fraunces, serif;
+      font-size: 78px;
+      line-height: .8;
+      color: #efb75a;
+    }
+
+    .range-wrap {
+      display: grid;
+      gap: 9px;
+      margin-top: 16px;
+    }
+
+    input[type="range"] {
+      accent-color: var(--ochre);
+      padding: 0;
+    }
+
+    .hire-panel {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 10px;
+      padding: 16px;
+      border: 1px solid rgba(24, 22, 18, .12);
+      background: rgba(255, 251, 239, .8);
+    }
+
+    .hire-row {
+      display: grid;
+      grid-template-columns: 92px 1fr;
+      gap: 12px;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(24, 22, 18, .1);
+    }
+
+    .hire-row:last-child { border-bottom: 0; }
+
+    .hire-row strong {
+      color: var(--teal);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+    }
+
+    .hire-row span {
+      color: #343129;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    section {
+      padding: clamp(58px, 8vw, 108px) clamp(16px, 4vw, 52px);
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: 170px minmax(0, 1fr);
+      gap: clamp(18px, 4vw, 54px);
+      margin-bottom: 28px;
+    }
+
+    .kicker {
+      color: var(--red);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      margin: 0;
+      font-family: Fraunces, serif;
+      font-size: clamp(38px, 6vw, 86px);
+      line-height: .9;
+      font-weight: 720;
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 0 0 18px 170px;
+    }
+
+    .filter {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 9px 12px;
+      color: var(--muted);
+      background: rgba(255, 251, 239, .68);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .filter.active {
+      color: var(--panel);
+      background: var(--teal);
+      border-color: var(--teal);
+    }
+
+    .case-board {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(280px, .8fr);
+      gap: 16px;
+    }
+
+    .case-card {
+      position: relative;
+      min-height: 300px;
+      padding: clamp(22px, 3vw, 34px);
+      border: 1px solid var(--line);
+      background: rgba(255, 251, 239, .72);
+      box-shadow: 0 18px 48px rgba(38, 31, 21, .1);
+      overflow: hidden;
+      transition: opacity .22s ease, transform .22s ease;
+    }
+
+    .case-card.featured {
+      min-height: 460px;
+      color: var(--panel);
+      background:
+        linear-gradient(135deg, rgba(24, 22, 18, .82), rgba(22, 112, 109, .9)),
+        var(--teal);
+    }
+
+    .case-card.is-hidden {
+      display: none;
+    }
+
+    .case-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .case-card h3 {
+      max-width: 780px;
+      margin: 18px 0 14px;
+      font-size: clamp(26px, 3.3vw, 46px);
+      line-height: 1;
+    }
+
+    .case-card p {
+      max-width: 760px;
+      margin: 0;
+      color: inherit;
+      font-size: 15px;
+      line-height: 1.72;
+    }
+
+    .case-card:not(.featured) p { color: var(--muted); }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      padding: 6px 8px;
+      border: 1px solid currentColor;
+      border-radius: 999px;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .evidence-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      margin-top: 36px;
+      border: 1px solid rgba(255, 251, 239, .24);
+      background: rgba(255, 251, 239, .2);
+    }
+
+    .evidence-strip div {
+      padding: 14px;
+      background: rgba(255, 251, 239, .1);
+    }
+
+    .evidence-strip strong { display: block; }
+    .evidence-strip span {
+      display: block;
+      margin-top: 4px;
+      color: rgba(255, 251, 239, .74);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+    }
+
+    .side-stack {
+      display: grid;
+      gap: 16px;
+    }
+
+    .screening {
+      display: grid;
+      grid-template-columns: .82fr 1.18fr;
+      gap: clamp(18px, 4vw, 52px);
+      align-items: stretch;
+      border-block: 1px solid var(--line);
+      background:
+        linear-gradient(90deg, rgba(255, 251, 239, .64), rgba(255, 251, 239, .2)),
+        rgba(49, 95, 138, .08);
+    }
+
+    .screening-board {
+      display: grid;
+      gap: 12px;
+      align-content: start;
+      padding: clamp(20px, 4vw, 38px);
+      color: var(--panel);
+      background: #1f1b17;
+      box-shadow: var(--shadow);
+    }
+
+    .screening-board h2 {
+      color: var(--panel);
+      font-size: clamp(38px, 5.4vw, 78px);
+    }
+
+    .screening-board p {
+      color: rgba(255, 251, 239, .76);
+      line-height: 1.75;
+    }
+
+    .scan-canvas {
+      width: 100%;
+      aspect-ratio: 1.35;
+      border: 1px solid rgba(255, 251, 239, .2);
+      background: rgba(255, 251, 239, .04);
+    }
+
+    .screening-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .screening-item {
+      display: grid;
+      grid-template-columns: 34px 1fr auto;
+      gap: 12px;
+      align-items: center;
+      padding: 16px;
+      border: 1px solid var(--line);
+      background: rgba(255, 251, 239, .72);
+      transition: transform .18s ease, background .18s ease;
+    }
+
+    .screening-item:hover {
+      transform: translateX(5px);
+      background: rgba(255, 251, 239, .95);
+    }
+
+    .screening-item .mark {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      color: var(--panel);
+      background: var(--teal);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .screening-item h3 {
+      margin: 0 0 4px;
+      font-size: 20px;
+    }
+
+    .screening-item p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .screening-item .score {
+      color: var(--red);
+      font-family: Fraunces, serif;
+      font-size: 34px;
+      line-height: 1;
+    }
+
+    .builder {
+      display: grid;
+      grid-template-columns: .82fr 1.18fr;
+      gap: clamp(18px, 4vw, 52px);
+      align-items: start;
+      padding: clamp(22px, 4vw, 44px);
+      border-block: 1px solid var(--line);
+      background: rgba(255, 251, 239, .45);
+    }
+
+    .role-picker {
+      display: grid;
+      gap: 10px;
+    }
+
+    .role-button {
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: 10px;
+      align-items: center;
+      width: 100%;
+      border: 1px solid var(--line);
+      padding: 13px;
+      background: rgba(255, 251, 239, .74);
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .role-button span:first-child {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      color: var(--panel);
+      background: var(--ink);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 12px;
+    }
+
+    .role-button.active {
+      border-color: var(--teal);
+      box-shadow: inset 4px 0 0 var(--teal);
+    }
+
+    .pitch-card {
+      min-height: 410px;
+      display: grid;
+      align-content: space-between;
+      padding: clamp(22px, 4vw, 44px);
+      color: var(--panel);
+      background: #1f1b17;
+      box-shadow: var(--shadow);
+    }
+
+    .pitch-card h3 {
+      max-width: 760px;
+      margin: 0 0 18px;
+      font-family: Fraunces, serif;
+      font-size: clamp(34px, 5vw, 76px);
+      line-height: .9;
+    }
+
+    .pitch-card p {
+      max-width: 700px;
+      color: rgba(255, 251, 239, .78);
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    .proof-list {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 26px;
+    }
+
+    .proof-list div {
+      min-height: 96px;
+      padding: 13px;
+      border: 1px solid rgba(255, 251, 239, .18);
+      background: rgba(255, 251, 239, .07);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 11px;
+      line-height: 1.45;
+      text-transform: uppercase;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 0;
+      max-width: 1120px;
+      margin-left: auto;
+      border-top: 1px solid var(--line);
+    }
+
+    .role {
+      display: grid;
+      grid-template-columns: 220px minmax(0, 1fr) 130px;
+      gap: 22px;
+      align-items: start;
+      padding: 22px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .role time,
+    .role .place {
+      color: var(--muted);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+    }
+
+    .role h3 {
+      margin: 0 0 7px;
+      font-size: 22px;
+    }
+
+    .role p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .australia {
+      display: grid;
+      grid-template-columns: .74fr 1.26fr;
+      gap: clamp(18px, 4vw, 52px);
+      align-items: stretch;
+      color: var(--panel);
+      background: #1f1b17;
+      padding: clamp(22px, 4vw, 44px);
+    }
+
+    .map {
+      position: relative;
+      min-height: 420px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 251, 239, .18);
+      background:
+        radial-gradient(circle at 74% 70%, #efb75a 0 9px, transparent 10px),
+        radial-gradient(circle at 64% 52%, var(--red) 0 8px, transparent 9px),
+        radial-gradient(circle at 62% 35%, var(--teal) 0 7px, transparent 8px),
+        linear-gradient(30deg, transparent 47%, rgba(255, 251, 239, .18) 48% 51%, transparent 52%),
+        rgba(255, 251, 239, .05);
+    }
+
+    .map::before {
+      content: "AUS";
+      position: absolute;
+      left: 28px;
+      bottom: 14px;
+      color: rgba(255, 251, 239, .09);
+      font-family: Fraunces, serif;
+      font-size: clamp(110px, 17vw, 250px);
+      font-weight: 800;
+      line-height: .8;
+    }
+
+    .australia h2 { color: var(--panel); }
+    .australia p {
+      max-width: 760px;
+      color: rgba(255, 251, 239, .76);
+      font-size: 17px;
+      line-height: 1.75;
+    }
+
+    .availability {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .availability div {
+      min-height: 100px;
+      padding: 14px;
+      border: 1px solid rgba(255, 251, 239, .18);
+      background: rgba(255, 251, 239, .07);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 11px;
+      line-height: 1.45;
+      text-transform: uppercase;
+    }
+
+    .contact {
+      display: grid;
+      grid-template-columns: .85fr 1.15fr;
+      gap: clamp(22px, 4vw, 56px);
+      align-items: start;
+    }
+
+    .contact p {
+      max-width: 560px;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    .contact-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .contact-list a {
+      padding: 14px;
+      border: 1px solid var(--line);
+      background: rgba(255, 251, 239, .62);
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    form {
+      display: grid;
+      gap: 12px;
+      padding: 20px;
+      border: 1px solid var(--line);
+      background: rgba(255, 251, 239, .84);
+      box-shadow: var(--shadow);
+    }
+
+    .field {
+      display: grid;
+      gap: 7px;
+    }
+
+    label {
+      color: var(--teal);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      border: 1px solid rgba(24, 22, 18, .2);
+      border-radius: 7px;
+      padding: 13px 12px;
+      color: var(--ink);
+      background: #fffdfa;
+      outline: none;
+    }
+
+    textarea { min-height: 126px; resize: vertical; }
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--teal);
+      box-shadow: 0 0 0 4px rgba(22, 112, 109, .13);
+    }
+
+    .form-note,
+    .form-status {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .form-status {
+      min-height: 18px;
+      font-weight: 700;
+    }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 24px clamp(16px, 4vw, 52px);
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      font-size: 13px;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+
+    .reveal.in-view {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 980px) {
+      .nav {
+        grid-template-columns: 1fr auto;
+      }
+
+      .nav-links { display: none; }
+      .hero,
+      .case-board,
+      .screening,
+      .builder,
+      .australia,
+      .contact {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-copy,
+      .command-center {
+        min-height: auto;
+      }
+
+      .section-head {
+        grid-template-columns: 1fr;
+      }
+
+      .filters { margin-left: 0; }
+      .role { grid-template-columns: 1fr; gap: 8px; }
+    }
+
+    @media (max-width: 640px) {
+      .hero { padding-top: 28px; }
+      h1 { font-size: clamp(54px, 18vw, 86px); }
+      .portrait-system,
+      .meter-grid,
+      .evidence-strip,
+      .proof-list,
+      .screening-item,
+      .availability {
+        grid-template-columns: 1fr;
+      }
+      .screening-item .score { font-size: 28px; }
+      .status-rail { grid-template-columns: repeat(2, 1fr); grid-template-rows: none; }
+      .button { width: 100%; }
+      footer { display: grid; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+  <nav class="nav" aria-label="Primary navigation">
+    <a class="brand" href="#top" aria-label="Sana Arif home">
+      <span>Sana Arif</span>
+      <small>Applied AI candidate</small>
+    </a>
     <div class="nav-links">
-      <a onclick="document.getElementById('projects').scrollIntoView({behavior:'smooth'})">Projects</a>
-      <a onclick="document.getElementById('skills').scrollIntoView({behavior:'smooth'})">Skills</a>
-      <a onclick="document.getElementById('experience').scrollIntoView({behavior:'smooth'})">Experience</a>
-      <a onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">About</a>
-      <a class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Available for hire</a>
+      <a href="#evidence">Evidence</a>
+      <a href="#screening">Screening</a>
+      <a href="#fit">Role fit</a>
+      <a href="#australia">Australia</a>
+      <a href="#contact">Contact</a>
     </div>
+    <a class="nav-cta" href="#contact">Open recruiter brief</a>
   </nav>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-eyebrow fade-in fade-in-1">
-      <span class="pulse-dot"></span>
-      Open to remote &amp; relocation — Australia / Global
-    </div>
+  <main id="top">
+    <header class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow reveal">Australian employer-ready data scientist</div>
+        <h1 class="reveal">Hire the proof. <span>Interview the person.</span></h1>
+        <p class="lead reveal">Sana Arif is positioned for Australian data, ML, analytics, and applied AI teams that need someone who can move from messy operational data to deployed tools, readable evidence, and stakeholder confidence.</p>
+        <div class="hero-actions reveal">
+          <a class="button primary" href="#evidence">Inspect proof</a>
+          <a class="button" href="mailto:sanaarif0122@gmail.com">Email Sana</a>
+        </div>
+      </div>
 
-    <h1 class="hero-name fade-in fade-in-2">
-      Sana Arif<br><span>Data Scientist.</span>
-    </h1>
-
-    <p class="hero-title fade-in fade-in-2">Islamabad, Pakistan &nbsp;·&nbsp; NASTP &amp; Freelance</p>
-
-    <p class="hero-bio fade-in fade-in-3">
-      I build things that work in the real world — <strong>NLP systems for defence</strong>, 
-      computer vision deployed at <strong>3 live PAF sites</strong>, and dashboards that replaced 
-      hours of manual reporting for aerospace management. Currently pursuing an MSc in Data Science 
-      at Bahria University while shipping production ML at NASTP.
-    </p>
-
-    <div class="hero-actions fade-in fade-in-3">
-      <button class="btn-primary" onclick="document.getElementById('projects').scrollIntoView({behavior:'smooth'})">
-        <i class="ti ti-briefcase" aria-hidden="true"></i> See my work
-      </button>
-      <button class="btn-secondary" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">
-        <i class="ti ti-mail" aria-hidden="true"></i> Get in touch
-      </button>
-    </div>
-
-    <div class="stats-bar fade-in fade-in-4">
-      <div class="stat"><span class="stat-num">3+</span><span class="stat-label">Years experience</span></div>
-      <div class="stat"><span class="stat-num">95%</span><span class="stat-label">Model accuracy</span></div>
-      <div class="stat"><span class="stat-num">3</span><span class="stat-label">Live PAF deployments</span></div>
-      <div class="stat"><span class="stat-num">1B+</span><span class="stat-label">SQL records processed</span></div>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- PROJECTS -->
-  <section class="section" id="projects">
-    <div class="section-header">
-      <span class="section-label">Work</span>
-      <h2 class="section-title">Featured projects</h2>
-      <div class="section-line"></div>
-    </div>
-
-    <div class="project-grid">
-
-      <!-- Featured -->
-      <div class="project-card featured" style="--card-accent: var(--teal);">
-        <div>
-          <div class="project-tags">
-            <span class="tag tag-teal">Computer Vision</span>
-            <span class="tag tag-purple">Full Stack</span>
-            <span class="live-badge"><span class="pulse-dot" style="width:6px;height:6px;"></span> Live · 3 PAF sites</span>
-          </div>
-          <h3 class="project-title">AI Security Surveillance System — Pakistan Air Force</h3>
-          <p class="project-desc">End-to-end facial recognition and motion detection platform deployed across 3 active PAF locations. Tracks known and unknown individuals in real time, logs all events with timestamps, and surfaces historical analytics for security intelligence.</p>
-          <div class="project-stack">
-            <span class="stack-pill">Python</span>
-            <span class="stack-pill">OpenCV</span>
-            <span class="stack-pill">FastAPI</span>
-            <span class="stack-pill">React</span>
-            <span class="stack-pill">MongoDB</span>
-            <span class="stack-pill">Docker</span>
+      <aside class="command-center reveal" aria-label="Recruiter command center">
+        <div class="portrait-system">
+          <div class="initials" aria-hidden="true"><span>SA</span></div>
+          <div class="status-rail">
+            <div class="rail-item">Python</div>
+            <div class="rail-item">Vision</div>
+            <div class="rail-item">NLP</div>
+            <div class="rail-item">BI</div>
           </div>
         </div>
-        <div class="project-meta">
-          <div class="meta-item"><div class="meta-key">Capability</div><div class="meta-val">Face recognition + motion</div></div>
-          <div class="meta-item"><div class="meta-key">Deployment</div><div class="meta-val">3 live PAF sites</div></div>
-          <div class="meta-item"><div class="meta-key">Dashboard</div><div class="meta-val">Real-time analytics</div></div>
-          <div class="meta-item"><div class="meta-key">Environment</div><div class="meta-val">Secure enterprise</div></div>
+        <div class="meter-grid">
+          <div class="meter"><strong data-count="3">0</strong><span>Security deployments across operational PAF sites</span></div>
+          <div class="meter"><strong data-count="95">0</strong><span>Percent top model accuracy in production work</span></div>
+          <div class="meter"><strong data-count="1000">0</strong><span>Million-plus operational records handled</span></div>
+          <div class="meter"><strong>MSc</strong><span>Data Science, Bahria University</span></div>
         </div>
-      </div>
-
-      <div class="project-card" style="--card-accent: var(--purple);">
-        <div class="project-tags">
-          <span class="tag tag-purple">NLP</span>
-          <span class="tag tag-teal">LLMs</span>
-        </div>
-        <h3 class="project-title">Automated Requirement Generation via Sentiment Analysis</h3>
-        <p class="project-desc">NLP pipelines combining Scikit-learn and LLMs to extract software requirements from unstructured social media data. 80–90% classification accuracy with Streamlit dashboard for stakeholder visualisation.</p>
-        <div class="project-stack">
-          <span class="stack-pill">Scikit-learn</span>
-          <span class="stack-pill">LLMs / RAG</span>
-          <span class="stack-pill">Streamlit</span>
-          <span class="stack-pill">Python</span>
-        </div>
-      </div>
-
-      <div class="project-card" style="--card-accent: var(--coral);">
-        <div class="project-tags">
-          <span class="tag tag-coral">Power BI</span>
-          <span class="tag tag-amber">Enterprise BI</span>
-        </div>
-        <h3 class="project-title">ESD Violations Dashboard — NASTP</h3>
-        <p class="project-desc">20-page Power BI suite for electrostatic discharge monitoring across aerospace production lines. Replaced manual reporting entirely — management now identifies root causes and sets policy directly from the dashboard.</p>
-        <div class="project-stack">
-          <span class="stack-pill">Power BI</span>
-          <span class="stack-pill">DAX</span>
-          <span class="stack-pill">SQL</span>
-          <span class="stack-pill">Python</span>
-        </div>
-      </div>
-
-      <div class="project-card" style="--card-accent: #1D9E75;">
-        <div class="project-tags">
-          <span class="tag tag-purple">Deep Learning</span>
-          <span class="tag tag-teal">Audio AI</span>
-        </div>
-        <h3 class="project-title">Speaker Diarization System</h3>
-        <p class="project-desc">Deep learning pipeline that answers "who spoke when" — segmenting and labelling multi-speaker audio with overlapping speech and background noise. Useful for meeting transcription and intelligence analysis.</p>
-        <div class="project-stack">
-          <span class="stack-pill">pyannote</span>
-          <span class="stack-pill">Whisper</span>
-          <span class="stack-pill">FastAPI</span>
-          <span class="stack-pill">Streamlit</span>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- SKILLS -->
-  <section class="section" id="skills">
-    <div class="section-header">
-      <span class="section-label">Capabilities</span>
-      <h2 class="section-title">Technical skills</h2>
-      <div class="section-line"></div>
-    </div>
-
-    <div class="skills-grid">
-      <div class="skill-card">
-        <div class="skill-icon" style="background:var(--teal-light);"><i class="ti ti-code" style="color:var(--teal-dark);font-size:18px;" aria-hidden="true"></i></div>
-        <div class="skill-category">Languages &amp; data</div>
-        <div class="skill-pills">
-          <span class="skill-pill">Python</span><span class="skill-pill">SQL</span><span class="skill-pill">PySpark</span><span class="skill-pill">Pandas</span><span class="skill-pill">NumPy</span>
-        </div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-icon" style="background:var(--purple-light);"><i class="ti ti-brain" style="color:#3C3489;font-size:18px;" aria-hidden="true"></i></div>
-        <div class="skill-category">ML / AI</div>
-        <div class="skill-pills">
-          <span class="skill-pill">Scikit-learn</span><span class="skill-pill">NLP</span><span class="skill-pill">Computer Vision</span><span class="skill-pill">LLMs</span><span class="skill-pill">RAG</span>
-        </div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-icon" style="background:var(--amber-light);"><i class="ti ti-chart-bar" style="color:#633806;font-size:18px;" aria-hidden="true"></i></div>
-        <div class="skill-category">Visualisation &amp; BI</div>
-        <div class="skill-pills">
-          <span class="skill-pill">Power BI</span><span class="skill-pill">Streamlit</span><span class="skill-pill">DAX</span><span class="skill-pill">Databricks</span>
-        </div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-icon" style="background:var(--coral-light);"><i class="ti ti-server" style="color:#712B13;font-size:18px;" aria-hidden="true"></i></div>
-        <div class="skill-category">Backend &amp; APIs</div>
-        <div class="skill-pills">
-          <span class="skill-pill">FastAPI</span><span class="skill-pill">Flask</span><span class="skill-pill">MongoDB</span><span class="skill-pill">MySQL</span>
-        </div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-icon" style="background:var(--teal-light);"><i class="ti ti-rocket" style="color:var(--teal-dark);font-size:18px;" aria-hidden="true"></i></div>
-        <div class="skill-category">DevOps &amp; deployment</div>
-        <div class="skill-pills">
-          <span class="skill-pill">Docker</span><span class="skill-pill">Git</span><span class="skill-pill">React</span><span class="skill-pill">EXE packaging</span><span class="skill-pill">Prod pipelines</span>
-        </div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-icon" style="background:var(--purple-light);"><i class="ti ti-math" style="color:#3C3489;font-size:18px;" aria-hidden="true"></i></div>
-        <div class="skill-category">Statistics</div>
-        <div class="skill-pills">
-          <span class="skill-pill">Regression</span><span class="skill-pill">Hypothesis testing</span><span class="skill-pill">EDA</span><span class="skill-pill">Feature engineering</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- EXPERIENCE -->
-  <section class="section" id="experience">
-    <div class="section-header">
-      <span class="section-label">Career</span>
-      <h2 class="section-title">Experience</h2>
-      <div class="section-line"></div>
-    </div>
-
-    <div class="timeline">
-      <div class="timeline-item">
-        <div class="timeline-dot active"></div>
-        <div class="timeline-content">
-          <div class="tl-header">
-            <div class="tl-role">Data Scientist</div>
-            <div class="tl-period">Sep 2025 – Present</div>
+        <div class="fit-panel">
+          <div class="mono">Recruiter fit tuner</div>
+          <div class="fit-score">
+            <h2 id="fit-title">Applied AI readiness</h2>
+            <div class="score-number"><span id="score">92</span></div>
           </div>
-          <div class="tl-org">National Aerospace Science &amp; Technology Park (NASTP), Islamabad</div>
-          <ul class="tl-bullets">
-            <li>Design and deploy end-to-end ML and NLP pipelines achieving 80–95% accuracy in production</li>
-            <li>Engineer SQL databases processing billions of log records for real-time operational reporting</li>
-            <li>Build multi-page Power BI and Streamlit dashboards used by senior management and defence leadership</li>
-            <li>Lead full-stack development: React frontend, FastAPI backend, Docker deployment</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="timeline-item">
-        <div class="timeline-dot"></div>
-        <div class="timeline-content">
-          <div class="tl-header">
-            <div class="tl-role">Freelance Data Scientist</div>
-            <div class="tl-period">2024 – Present</div>
+          <div class="range-wrap">
+            <label for="role-depth">Role emphasis</label>
+            <input id="role-depth" type="range" min="0" max="100" value="72" />
+            <div class="form-note" id="score-copy">Strongest match: ML delivery, BI systems, and AI product teams.</div>
           </div>
-          <div class="tl-org">Remote · Global clients</div>
-          <ul class="tl-bullets">
-            <li>Deliver end-to-end data science solutions: analysis, ML, NLP, and visualisation</li>
-            <li>Build and ship production dashboards, analytical reports, and client-ready applications</li>
-          </ul>
         </div>
+        <div class="hire-panel">
+          <div class="hire-row"><strong>Signal</strong><span>Deployed AI, BI, NLP, and full-stack delivery in aerospace and defence contexts.</span></div>
+          <div class="hire-row"><strong>Risk</strong><span>No inflated claims: every section ties back to a project, toolchain, or delivery environment.</span></div>
+          <div class="hire-row"><strong>Fit</strong><span>Best matched to practical Australian teams that value ownership, documentation, and production thinking.</span></div>
+        </div>
+      </aside>
+    </header>
+
+    <section id="evidence" aria-labelledby="evidence-title">
+      <div class="section-head">
+        <div class="kicker">Evidence desk</div>
+        <h2 id="evidence-title">Filter the work by what your hiring team needs.</h2>
+      </div>
+      <div class="filters" aria-label="Project filters">
+        <button class="filter active" type="button" data-filter="all">All proof</button>
+        <button class="filter" type="button" data-filter="vision">Computer vision</button>
+        <button class="filter" type="button" data-filter="nlp">NLP and LLM</button>
+        <button class="filter" type="button" data-filter="bi">BI and analytics</button>
+        <button class="filter" type="button" data-filter="product">Product delivery</button>
       </div>
 
-      <div class="timeline-item">
-        <div class="timeline-dot"></div>
-        <div class="timeline-content">
-          <div class="tl-header">
-            <div class="tl-role">Data Science Intern</div>
-            <div class="tl-period">Oct 2024 – Mar 2025</div>
+      <div class="case-board">
+        <article class="case-card featured reveal" data-tags="vision product">
+          <div class="tags">
+            <span class="tag">Computer vision</span>
+            <span class="tag">Secure deployment</span>
+            <span class="tag">Full stack</span>
           </div>
-          <div class="tl-org">National Aerospace Science &amp; Technology Park (NASTP), Islamabad</div>
-          <ul class="tl-bullets">
-            <li>Assisted with data collection, preprocessing, and EDA across multiple enterprise projects</li>
-            <li>Supported model training, evaluation, and deployment workflows</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="timeline-item">
-        <div class="timeline-dot"></div>
-        <div class="timeline-content">
-          <div class="tl-header">
-            <div class="tl-role">Web Application Developer</div>
-            <div class="tl-period">Aug 2023 – Dec 2024</div>
+          <h3>AI Security Surveillance System for Pakistan Air Force sites</h3>
+          <p>Built an end-to-end facial recognition and motion detection platform for active security environments. It identifies known and unknown people, records event history, and gives teams a real-time dashboard for investigation and situational awareness.</p>
+          <div class="evidence-strip">
+            <div><strong>3 sites</strong><span>Live deployment</span></div>
+            <div><strong>OpenCV</strong><span>Vision engine</span></div>
+            <div><strong>FastAPI</strong><span>Backend layer</span></div>
+            <div><strong>Docker</strong><span>Delivery model</span></div>
           </div>
-          <div class="tl-org">BrainSwarm Robotics</div>
-          <ul class="tl-bullets">
-            <li>Developed and maintained full-stack web application features in cross-functional teams</li>
-          </ul>
+        </article>
+
+        <div class="side-stack">
+          <article class="case-card reveal" data-tags="nlp product">
+            <div class="tags"><span class="tag">NLP</span><span class="tag">LLMs</span></div>
+            <h3>Automated requirement generation</h3>
+            <p>Created NLP pipelines that transform unstructured social media and feedback into software requirements, combining Scikit-learn, LLM workflows, and Streamlit reporting.</p>
+          </article>
+          <article class="case-card reveal" data-tags="bi product">
+            <div class="tags"><span class="tag">BI</span><span class="tag">Aerospace</span></div>
+            <h3>ESD violations intelligence dashboard</h3>
+            <p>Designed a 20-page Power BI suite that replaced manual reporting and helped leadership inspect root causes across production lines.</p>
+          </article>
+          <article class="case-card reveal" data-tags="bi nlp">
+            <div class="tags"><span class="tag">SQL scale</span><span class="tag">Analysis</span></div>
+            <h3>Operational records analysis</h3>
+            <p>Processed billion-scale operational records into explainable findings using Python, SQL, Pandas, PySpark, and dashboard-ready reporting.</p>
+          </article>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <div class="divider"></div>
-
-  <!-- ABOUT -->
-  <section class="section" id="about">
-    <div class="section-header">
-      <span class="section-label">About</span>
-      <h2 class="section-title">Who I am</h2>
-      <div class="section-line"></div>
-    </div>
-
-    <div class="about-grid">
-      <div class="about-text">
-        <p>I'm a data scientist based in Islamabad who builds things that actually get used. My work lives at the intersection of <span class="about-highlight">machine learning, real-world deployment, and domain complexity</span> — from processing billions of aerospace log records to shipping facial recognition systems across active defence sites.</p>
-        <p>What drives me is the gap between a model that works in a notebook and one that runs reliably in production at 3am. I care about the full pipeline: clean data, solid engineering, dashboards that make decisions easier for the people who need them.</p>
-        <p>Outside of NASTP, I'm pursuing a <span class="about-highlight">Master's in Data Science at Bahria University</span> and taking on freelance projects globally. I'm actively looking for remote opportunities or relocation — particularly in Australia — where I can bring this depth of experience to a new environment.</p>
+    <section id="screening" class="screening" aria-labelledby="screening-title">
+      <div class="screening-board reveal">
+        <div class="kicker">Employer screening packet</div>
+        <h2 id="screening-title">What an Australian hiring manager is likely checking.</h2>
+        <p>This section answers the uncomfortable recruiter questions directly: Can she ship? Can she communicate? Is the work credible? Does she understand business value beyond model accuracy?</p>
+        <canvas class="scan-canvas" id="scan-canvas" width="720" height="530" aria-label="Animated capability radar"></canvas>
       </div>
-
-      <div class="availability-card">
-        <div class="avail-title"><i class="ti ti-map-pin" style="color:var(--teal);font-size:16px;" aria-hidden="true"></i> Availability &amp; location</div>
-
-        <div class="avail-row">
-          <div class="avail-icon" style="background:var(--teal-light);"><i class="ti ti-world" style="color:var(--teal-dark);" aria-hidden="true"></i></div>
-          <div><div class="avail-label">Remote work</div><div class="avail-sub">Available globally, any timezone</div></div>
-          <div class="avail-check"><i class="ti ti-check" aria-hidden="true"></i></div>
-        </div>
-
-        <div class="avail-row">
-          <div class="avail-icon" style="background:var(--teal-light);"><i class="ti ti-plane" style="color:var(--teal-dark);" aria-hidden="true"></i></div>
-          <div><div class="avail-label">Relocation</div><div class="avail-sub">Open to Australia, UK, Europe</div></div>
-          <div class="avail-check"><i class="ti ti-check" aria-hidden="true"></i></div>
-        </div>
-
-        <div class="avail-row">
-          <div class="avail-icon" style="background:var(--teal-light);"><i class="ti ti-file-text" style="color:var(--teal-dark);" aria-hidden="true"></i></div>
-          <div><div class="avail-label">Visa sponsorship</div><div class="avail-sub">Open to sponsored roles</div></div>
-          <div class="avail-check"><i class="ti ti-check" aria-hidden="true"></i></div>
-        </div>
-
-        <div class="avail-row">
-          <div class="avail-icon" style="background:var(--purple-light);"><i class="ti ti-school" style="color:#3C3489;" aria-hidden="true"></i></div>
-          <div><div class="avail-label">MSc Data Science</div><div class="avail-sub">Bahria University · 2025–2027</div></div>
-        </div>
+      <div class="screening-list">
+        <article class="screening-item reveal">
+          <div class="mark">01</div>
+          <div>
+            <h3>Production judgment</h3>
+            <p>Security surveillance work shows deployment, event history, dashboards, and operational constraints, not only experimentation.</p>
+          </div>
+          <div class="score">A-</div>
+        </article>
+        <article class="screening-item reveal">
+          <div class="mark">02</div>
+          <div>
+            <h3>Communication with non-technical teams</h3>
+            <p>Power BI and requirement-generation projects translate analysis into decisions, reports, and workflows stakeholders can act on.</p>
+          </div>
+          <div class="score">A</div>
+        </article>
+        <article class="screening-item reveal">
+          <div class="mark">03</div>
+          <div>
+            <h3>Australian role alignment</h3>
+            <p>The strongest pitch is not "entry-level applicant." It is junior-to-mid applied data builder with end-to-end delivery experience.</p>
+          </div>
+          <div class="score">A-</div>
+        </article>
+        <article class="screening-item reveal">
+          <div class="mark">04</div>
+          <div>
+            <h3>Interview talking points</h3>
+            <p>Recruiters can quickly ask about deployment tradeoffs, evaluation choices, dashboard adoption, data quality, and stakeholder handover.</p>
+          </div>
+          <div class="score">Ready</div>
+        </article>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- CONTACT -->
-  <div id="contact" class="contact-strip">
-    <div class="contact-inner">
+    <section id="fit" class="builder" aria-labelledby="fit-builder-title">
       <div>
-        <div class="contact-headline">Let's work together.</div>
-        <div class="contact-sub">Open to remote roles and relocation opportunities — particularly Australia.</div>
+        <div class="kicker">Role fit builder</div>
+        <h2 id="fit-builder-title">Pick a role and the page rewrites the recruiter pitch.</h2>
+        <div class="role-picker" aria-label="Role pitch options">
+          <button class="role-button active" type="button" data-role="ml"><span>01</span><strong>Machine Learning Engineer</strong></button>
+          <button class="role-button" type="button" data-role="ds"><span>02</span><strong>Data Scientist</strong></button>
+          <button class="role-button" type="button" data-role="bi"><span>03</span><strong>Analytics and BI Lead</strong></button>
+          <button class="role-button" type="button" data-role="ai"><span>04</span><strong>Applied AI Product Builder</strong></button>
+        </div>
       </div>
-      <div class="contact-links">
-        <a class="contact-link" href="mailto:sanaarif0122@gmail.com">
-          <i class="ti ti-mail" style="font-size:15px;" aria-hidden="true"></i> Email
-        </a>
-        <a class="contact-link" href="https://linkedin.com/in/sana-arif-70ba83232" target="_blank">
-          <i class="ti ti-brand-linkedin" style="font-size:15px;" aria-hidden="true"></i> LinkedIn
-        </a>
-        <a class="contact-link" href="tel:+923498158659">
-          <i class="ti ti-phone" style="font-size:15px;" aria-hidden="true"></i> +92 349 815 8659
-        </a>
-      </div>
-    </div>
-  </div>
+      <article class="pitch-card" aria-live="polite">
+        <div>
+          <div class="mono" id="pitch-label">Machine Learning Engineer</div>
+          <h3 id="pitch-title">Sana ships models into operational systems, not just notebooks.</h3>
+          <p id="pitch-copy">She combines Python, Scikit-learn, OpenCV, FastAPI, Docker, and product-facing dashboards, which makes her useful where model quality, integration, and adoption all matter.</p>
+        </div>
+        <div class="proof-list" id="pitch-proof">
+          <div>Computer vision deployed in secure environments</div>
+          <div>API and dashboard delivery experience</div>
+          <div>Evaluation discipline with production accuracy targets</div>
+        </div>
+      </article>
+    </section>
 
-</div>
+    <section id="experience" aria-labelledby="experience-title">
+      <div class="section-head">
+        <div class="kicker">Career record</div>
+        <h2 id="experience-title">Built where reliability, privacy, and clarity matter.</h2>
+      </div>
+      <div class="timeline">
+        <article class="role reveal">
+          <time>Sep 2025 - Present</time>
+          <div>
+            <h3>Data Scientist, National Aerospace Science &amp; Technology Park</h3>
+            <p>Designs and deploys ML, NLP, BI, and full-stack data products for aerospace and defence teams, including production dashboards and secure AI systems.</p>
+          </div>
+          <div class="place">Islamabad</div>
+        </article>
+        <article class="role reveal">
+          <time>2024 - Present</time>
+          <div>
+            <h3>Freelance Data Scientist</h3>
+            <p>Delivers data analysis, machine learning, NLP, visualization, and client-ready applications for global clients with a focus on practical outcomes.</p>
+          </div>
+          <div class="place">Remote</div>
+        </article>
+        <article class="role reveal">
+          <time>Aug 2023 - Dec 2024</time>
+          <div>
+            <h3>Web Application Developer, BrainSwarm Robotics</h3>
+            <p>Built and maintained full-stack application features, strengthening the bridge between analytics, engineering, and user-facing software delivery.</p>
+          </div>
+          <div class="place">Product</div>
+        </article>
+      </div>
+    </section>
+
+    <section id="australia" class="australia" aria-labelledby="australia-title">
+      <div class="map" aria-hidden="true"></div>
+      <div>
+        <div class="kicker">Australian market signal</div>
+        <h2 id="australia-title">Clear intent, useful skills, and a portfolio that respects the Australian hiring process.</h2>
+        <p>Australian employers do not need a flashy page by itself. They need evidence that a candidate can be trusted with business data, ambiguity, timelines, and people. Sana's strongest angle is practical delivery: operational AI, explainable reporting, and enough engineering range to work across model, service, and dashboard layers.</p>
+        <div class="availability">
+          <div>Open to sponsored roles and relocation pathways</div>
+          <div>Remote-ready across time zones and stakeholder groups</div>
+          <div>Targeting data science, ML, applied AI, and BI teams</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="contact" aria-labelledby="contact-title">
+      <div>
+        <div class="kicker">Recruiter shortcut</div>
+        <h2 id="contact-title">Send the role. Get a serious candidate conversation.</h2>
+        <p>For data scientist, ML engineer, analytics engineer, AI product, and BI roles in Australia or remote teams, send the role context and the fastest interview path.</p>
+        <div class="contact-list">
+          <a href="mailto:sanaarif0122@gmail.com">sanaarif0122@gmail.com</a>
+          <a href="tel:+923498158659">+92 349 815 8659</a>
+          <a href="https://linkedin.com/in/sana-arif-70ba83232" target="_blank" rel="noreferrer">LinkedIn profile</a>
+        </div>
+      </div>
+
+      <form id="recruiter-form" name="recruiter-contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thank-you.html">
+        <input type="hidden" name="form-name" value="recruiter-contact" />
+        <p class="hidden">
+          <label>Do not fill this out <input name="bot-field" /></label>
+        </p>
+        <div class="field">
+          <label for="name">Your name</label>
+          <input id="name" name="name" autocomplete="name" required />
+        </div>
+        <div class="field">
+          <label for="email">Work email</label>
+          <input id="email" type="email" name="email" autocomplete="email" required />
+        </div>
+        <div class="field">
+          <label for="role">Role type</label>
+          <select id="role" name="role" required>
+            <option value="">Select one</option>
+            <option>Data Scientist</option>
+            <option>Machine Learning Engineer</option>
+            <option>Analytics / BI</option>
+            <option>AI Product / Applied AI</option>
+            <option>Other opportunity</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="message">Opportunity details</label>
+          <textarea id="message" name="message" placeholder="Location, sponsorship, salary range, interview process, and why Sana is a fit." required></textarea>
+        </div>
+        <button class="button primary" type="submit">Send opportunity</button>
+        <div class="form-status" id="form-status" aria-live="polite"></div>
+        <div class="form-note">Handled by Netlify Forms. Direct email and LinkedIn are available for urgent recruiter outreach.</div>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <span>Sana Arif - Data Scientist - Islamabad now, Australia-focused next.</span>
+    <span class="mono">Portfolio signal live</span>
+  </footer>
+
+  <script>
+    const center = document.querySelector(".command-center");
+    center?.addEventListener("pointermove", (event) => {
+      const rect = center.getBoundingClientRect();
+      center.style.setProperty("--mx", `${event.clientX - rect.left}px`);
+      center.style.setProperty("--my", `${event.clientY - rect.top}px`);
+    });
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.classList.add("in-view");
+      });
+    }, { threshold: .16 });
+    document.querySelectorAll(".reveal").forEach((item) => revealObserver.observe(item));
+
+    const countObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        const target = Number(el.dataset.count);
+        const suffix = target === 95 ? "%" : target === 1000 ? "M+" : "";
+        let current = 0;
+        const step = Math.max(1, Math.ceil(target / 44));
+        const tick = () => {
+          current = Math.min(target, current + step);
+          el.textContent = target === 1000 ? Math.round(current).toLocaleString() : current;
+          if (current < target) requestAnimationFrame(tick);
+          else el.textContent = target === 1000 ? "1B+" : `${target}${suffix}`;
+        };
+        tick();
+        countObserver.unobserve(el);
+      });
+    }, { threshold: .6 });
+    document.querySelectorAll("[data-count]").forEach((item) => countObserver.observe(item));
+
+    const canvas = document.getElementById("scan-canvas");
+    const ctx = canvas?.getContext("2d");
+    const radarLabels = ["Python", "ML", "Vision", "BI", "NLP", "Delivery"];
+    const radarValues = [88, 82, 91, 86, 78, 84];
+    let frame = 0;
+
+    function drawRadar(animate = true) {
+      if (!ctx || !canvas) return;
+      const width = canvas.width;
+      const height = canvas.height;
+      const cx = width / 2;
+      const cy = height / 2;
+      const radius = Math.min(width, height) * .32;
+      ctx.clearRect(0, 0, width, height);
+      ctx.fillStyle = "#1f1b17";
+      ctx.fillRect(0, 0, width, height);
+      ctx.strokeStyle = "rgba(255, 251, 239, .14)";
+      ctx.lineWidth = 1;
+      for (let ring = 1; ring <= 4; ring += 1) {
+        ctx.beginPath();
+        for (let i = 0; i < radarLabels.length; i += 1) {
+          const angle = -Math.PI / 2 + (i * Math.PI * 2) / radarLabels.length;
+          const r = radius * ring / 4;
+          const x = cx + Math.cos(angle) * r;
+          const y = cy + Math.sin(angle) * r;
+          i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+        }
+        ctx.closePath();
+        ctx.stroke();
+      }
+      radarLabels.forEach((label, i) => {
+        const angle = -Math.PI / 2 + (i * Math.PI * 2) / radarLabels.length;
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.lineTo(cx + Math.cos(angle) * radius, cy + Math.sin(angle) * radius);
+        ctx.stroke();
+        ctx.fillStyle = "rgba(255, 251, 239, .78)";
+        ctx.font = "600 18px IBM Plex Mono";
+        ctx.textAlign = "center";
+        ctx.fillText(label, cx + Math.cos(angle) * (radius + 45), cy + Math.sin(angle) * (radius + 45) + 6);
+      });
+      const pulse = .94 + Math.sin(frame / 28) * .06;
+      ctx.beginPath();
+      radarValues.forEach((value, i) => {
+        const angle = -Math.PI / 2 + (i * Math.PI * 2) / radarValues.length;
+        const r = radius * (value / 100) * pulse;
+        const x = cx + Math.cos(angle) * r;
+        const y = cy + Math.sin(angle) * r;
+        i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      });
+      ctx.closePath();
+      ctx.fillStyle = "rgba(239, 183, 90, .34)";
+      ctx.strokeStyle = "#efb75a";
+      ctx.lineWidth = 3;
+      ctx.fill();
+      ctx.stroke();
+      ctx.fillStyle = "#fffbef";
+      ctx.font = "700 22px IBM Plex Mono";
+      ctx.textAlign = "left";
+      ctx.fillText("CAPABILITY RADAR", 28, 42);
+      ctx.fillStyle = "rgba(255, 251, 239, .62)";
+      ctx.font = "600 14px IBM Plex Mono";
+      ctx.fillText("Australian screening view", 28, 68);
+      frame += 1;
+      if (animate) requestAnimationFrame(() => drawRadar(true));
+    }
+
+    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      drawRadar(true);
+    } else if (ctx) {
+      drawRadar(false);
+    }
+
+    const filters = document.querySelectorAll(".filter");
+    const cases = document.querySelectorAll(".case-card[data-tags]");
+    filters.forEach((button) => {
+      button.addEventListener("click", () => {
+        filters.forEach((item) => item.classList.remove("active"));
+        button.classList.add("active");
+        const filter = button.dataset.filter;
+        cases.forEach((card) => {
+          const visible = filter === "all" || card.dataset.tags.includes(filter);
+          card.classList.toggle("is-hidden", !visible);
+        });
+      });
+    });
+
+    const pitchData = {
+      ml: {
+        label: "Machine Learning Engineer",
+        title: "Sana ships models into operational systems, not just notebooks.",
+        copy: "She combines Python, Scikit-learn, OpenCV, FastAPI, Docker, and product-facing dashboards, which makes her useful where model quality, integration, and adoption all matter.",
+        proof: ["Computer vision deployed in secure environments", "API and dashboard delivery experience", "Evaluation discipline with production accuracy targets"]
+      },
+      ds: {
+        label: "Data Scientist",
+        title: "Sana turns unclear operational data into decisions people can defend.",
+        copy: "Her work spans feature engineering, NLP, large-scale SQL analysis, BI storytelling, and stakeholder-ready reporting for teams that need more than exploratory charts.",
+        proof: ["Billion-scale operational records", "NLP requirement extraction", "Python, SQL, Pandas, PySpark"]
+      },
+      bi: {
+        label: "Analytics and BI Lead",
+        title: "Sana builds dashboards that replace manual reporting loops.",
+        copy: "She has delivered executive-facing Power BI and operational reporting suites, with root-cause views designed for management action rather than passive monitoring.",
+        proof: ["20-page Power BI suite", "DAX and KPI design", "Aerospace production reporting"]
+      },
+      ai: {
+        label: "Applied AI Product Builder",
+        title: "Sana sits where AI, interface, and adoption meet.",
+        copy: "She can prototype the model, wire the service, shape the workflow, and present the result to non-technical teams, which is the missing link in many AI initiatives.",
+        proof: ["Streamlit and dashboard UX", "FastAPI and Flask delivery", "LLM-assisted workflow design"]
+      }
+    };
+
+    const roleButtons = document.querySelectorAll(".role-button");
+    const pitchLabel = document.getElementById("pitch-label");
+    const pitchTitle = document.getElementById("pitch-title");
+    const pitchCopy = document.getElementById("pitch-copy");
+    const pitchProof = document.getElementById("pitch-proof");
+    roleButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        roleButtons.forEach((item) => item.classList.remove("active"));
+        button.classList.add("active");
+        const data = pitchData[button.dataset.role];
+        pitchLabel.textContent = data.label;
+        pitchTitle.textContent = data.title;
+        pitchCopy.textContent = data.copy;
+        pitchProof.innerHTML = data.proof.map((item) => `<div>${item}</div>`).join("");
+      });
+    });
+
+    const range = document.getElementById("role-depth");
+    const score = document.getElementById("score");
+    const scoreCopy = document.getElementById("score-copy");
+    range?.addEventListener("input", () => {
+      const value = Number(range.value);
+      score.textContent = String(Math.round(82 + value / 6));
+      scoreCopy.textContent = value > 70
+        ? "Strongest match: ML delivery, BI systems, and AI product teams."
+        : value > 38
+          ? "Strong match: analytics engineering, reporting automation, and applied data science."
+          : "Good match: junior-to-mid data science roles with room for delivery ownership.";
+    });
+
+    const form = document.getElementById("recruiter-form");
+    const formStatus = document.getElementById("form-status");
+    form?.addEventListener("submit", () => {
+      formStatus.textContent = "Sending the recruiter brief through Netlify Forms...";
+    });
+  </script>
+</body>
+</html>
